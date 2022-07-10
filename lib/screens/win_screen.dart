@@ -289,7 +289,6 @@ class _WinScreenState extends State<WinScreen> with SingleTickerProviderStateMix
                       child: Stack(children: [
                         Container(
                           // height: 400,
-                          width: MediaQuery.of(context).size.width / 2,
                           height: ResponsiveValue(
                             context,
                             defaultValue: 400.0,
@@ -322,7 +321,7 @@ class _WinScreenState extends State<WinScreen> with SingleTickerProviderStateMix
                               padding: const EdgeInsets.all(10.0),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                // crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   const Spacer(),
                                   Text(
@@ -397,7 +396,7 @@ class _WinScreenState extends State<WinScreen> with SingleTickerProviderStateMix
                                     flex: 10,
                                     child: SizedBox(
                                         // color: Colors.red,
-                                        width: MediaQuery.of(context).size.width / 1.5,
+                                        width: MediaQuery.of(context).size.width / 2.2,
                                         height: MediaQuery.of(context).size.height / 5,
                                         child: Center(
                                           child: rive.RiveAnimation.asset(
@@ -452,15 +451,15 @@ class _WinScreenState extends State<WinScreen> with SingleTickerProviderStateMix
                                                 valueWhen: const [
                                                   Condition.smallerThan(
                                                     name: MOBILE,
-                                                    value: 20.0,
+                                                    value: 10.0,
                                                   ),
                                                   Condition.largerThan(
                                                     name: MOBILE,
-                                                    value: 30.0,
+                                                    value: 20.0,
                                                   ),
                                                   Condition.largerThan(
                                                     name: TABLET,
-                                                    value: 20.0,
+                                                    value: 30.0,
                                                   )
                                                 ],
                                               ).value,
@@ -480,15 +479,15 @@ class _WinScreenState extends State<WinScreen> with SingleTickerProviderStateMix
                                                 valueWhen: const [
                                                   Condition.smallerThan(
                                                     name: MOBILE,
-                                                    value: 20.0,
+                                                    value: 10.0,
                                                   ),
                                                   Condition.largerThan(
                                                     name: MOBILE,
-                                                    value: 30.0,
+                                                    value: 20.0,
                                                   ),
                                                   Condition.largerThan(
                                                     name: TABLET,
-                                                    value: 20.0,
+                                                    value: 30.0,
                                                   )
                                                 ],
                                               ).value,
@@ -508,15 +507,15 @@ class _WinScreenState extends State<WinScreen> with SingleTickerProviderStateMix
                                                 valueWhen: const [
                                                   Condition.smallerThan(
                                                     name: MOBILE,
-                                                    value: 20.0,
+                                                    value: 10.0,
                                                   ),
                                                   Condition.largerThan(
                                                     name: MOBILE,
-                                                    value: 30.0,
+                                                    value: 20.0,
                                                   ),
                                                   Condition.largerThan(
                                                     name: TABLET,
-                                                    value: 20.0,
+                                                    value: 30.0,
                                                   )
                                                 ],
                                               ).value,

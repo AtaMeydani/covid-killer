@@ -94,6 +94,17 @@ class DatabaseHelper {
     await db.insert("walls", {"mapID": 1, "posX": 2, "posY": 2});
     await db.insert("walls", {"mapID": 1, "posX": 2, "posY": 3});
     await db.insert("walls", {"mapID": 1, "posX": 2, "posY": 4});
+
+    await db.insert("maps", {"mapID": 2, "rows": 9, "columns": 9, "doctorX": 7, "doctorY": 7});
+
+    await db.insert("walls", {"mapID": 2, "posX": 2, "posY": 2});
+    await db.insert("walls", {"mapID": 2, "posX": 2, "posY": 3});
+    await db.insert("walls", {"mapID": 2, "posX": 2, "posY": 4});
+    await db.insert("walls", {"mapID": 2, "posX": 2, "posY": 5});
+    await db.insert("walls", {"mapID": 2, "posX": 3, "posY": 5});
+    await db.insert("walls", {"mapID": 2, "posX": 4, "posY": 5});
+
+    await db.insert("levels", {"levelNum": 3, "onLevel": 0, "redCovid": 4, "greenCovid": 3, "spray": 1, "mapID": 2, "secs": 120});
   }
 
   Future _onDowngrade(Database db, int oldVersion, int newVersion) async{
