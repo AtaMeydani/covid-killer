@@ -6,7 +6,7 @@ import '../models/levels_manager.dart';
 
 class DatabaseHelper {
   static const _databaseName = "covidkiller.db";
-  static const _databaseVersion = 1;
+  static const _databaseVersion = 2;
   static String? currentLoggedInEmail;
 
   // make this a singleton class
