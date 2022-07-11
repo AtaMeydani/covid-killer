@@ -1,8 +1,6 @@
 import 'package:path/path.dart';
-import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../models/levels_manager.dart';
 
 class DatabaseHelper {
   static const _databaseName = "covidkiller.db";

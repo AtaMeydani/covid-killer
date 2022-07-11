@@ -9,7 +9,7 @@ class ButtonProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: Container(
+      child: SizedBox(
           height: 45,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
