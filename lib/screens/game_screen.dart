@@ -36,7 +36,7 @@ class GameScreen extends StatefulWidget {
   const GameScreen({required this.currentStage, Key? key}) : super(key: key);
 
   @override
-  createState() => GameScreenState(currentLevel: currentStage);
+  createState() => GameScreenState(selectedLevel: currentStage);
 }
 
 class GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
@@ -63,11 +63,11 @@ class GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
   late int disinfectantSpray;
   late Timer timer;
   late Map<Type, int> remainingCovid;
-  int currentLevel;
+  int selectedLevel;
   DatabaseHelper dbHelper = DatabaseHelper.instance;
   bool stared = false;
 
-  GameScreenState({required this.currentLevel});
+  GameScreenState({required this.selectedLevel});
 
   startTimer() {
     timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
@@ -96,7 +96,7 @@ class GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
     score = 0;
     disinfectantSpray = 12;
 
-    var stage = await dbHelper.getStage(currentLevel);
+    var stage = await dbHelper.getStage(selectedLevel);
     var map = await dbHelper.getMap(stage!["mapID"]);
     var walls = await dbHelper.getWalls(stage["mapID"]);
 
@@ -283,20 +283,17 @@ class GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
     }
   }
 
-  void checkIfWin(BuildContext context, bool music, bool vibration) async {
+  void checkIfWin(BuildContext context, bool music, bool vibration) {
     hasWon = (remainingCovid[Type.redCovid] == 0 && remainingCovid[Type.greenCovid] == 0) ? true : false;
     endGame = hasWon ? hasWon : endGame;
 
     if (endGame) {
       timer.cancel();
       if (hasWon) {
-        await Future.delayed(const Duration(seconds: 1));
         int star = calcStars();
         setState(() {
-          if (Provider.of<LevelsManager>(context, listen: false).presentLevel == currentLevel) {
-            Provider.of<LevelsManager>(context, listen: false).incrementLevel(star);
-            Provider.of<LevelsManager>(context, listen: false).updateLevelStatus();
-          }
+          Provider.of<LevelsManager>(context, listen: false).incrementLevel(star, selectedLevel);
+          Provider.of<LevelsManager>(context, listen: false).updateLevelStatus();
 
           music ? gameMusic.winScreen() : "";
           vibration ? HapticFeedback.vibrate() : "";
@@ -619,7 +616,7 @@ class GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
                             ),
                           ),
                           Text(
-                            (currentLevel + 1).toString(),
+                            (selectedLevel + 1).toString(),
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 10,
@@ -1075,7 +1072,7 @@ class GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
                 ? Center(
                     child: hasWon
                         ? WinScreen(
-                            currentStage: currentLevel,
+                            currentStage: selectedLevel,
                             stepsTaken: currentSteps,
                             hours: (_secs / 3600).floor(),
                             mins: (_secs / 60).floor(),
@@ -1288,7 +1285,7 @@ class GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
                                     children: [
                                       const Spacer(),
                                       Text(
-                                        "Level $currentLevel",
+                                        "Level $selectedLevel",
                                         style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 35,
@@ -1313,7 +1310,7 @@ class GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
                                             style: TextStyle(fontSize: 20),
                                           ),
                                           Text(
-                                            currentLevel.toString(),
+                                            selectedLevel.toString(),
                                             style: const TextStyle(
                                               fontSize: 15,
                                             ),
@@ -1752,7 +1749,7 @@ class GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
                     children: [
                       const Spacer(),
                       Text(
-                        'Level ${currentLevel + 1}',
+                        'Level ${selectedLevel + 1}',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: ResponsiveValue(
@@ -2071,7 +2068,7 @@ class GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
                               settingsStatus.musicStatus ? gameMusic.gameEnterMusic() : "";
                               settingsStatus.vibrateStatus ? HapticFeedback.vibrate() : "";
                               if (endGame) {
-                                currentLevel = currentLevel;
+                                selectedLevel = selectedLevel;
                               }
                               setState(() {
                                 stared = false;

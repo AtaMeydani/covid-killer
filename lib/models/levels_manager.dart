@@ -19,7 +19,7 @@ class LevelsManager extends ChangeNotifier {
   }
 
   void levelSetUp() async {
-    if(DatabaseHelper.currentLoggedInEmail != null){
+    if (DatabaseHelper.currentLoggedInEmail != null) {
       lvlsStatus = await dbHelper.getUserLevels();
       int? maxLevel = await dbHelper.getNumOfLevels();
       presentLevel = min(lvlsStatus.length + 1, maxLevel!);
@@ -34,43 +34,44 @@ class LevelsManager extends ChangeNotifier {
     }
   }
 
-  void incrementLevel(int star) async{
-    int? maxLevel = await dbHelper.getNumOfLevels();
-      if (maxLevel != null && presentLevel <= maxLevel) {
-        var userLevels = await dbHelper.getLevelFromUserLevels(presentLevel);
-        if(userLevels.isEmpty){
-          levelStar[presentLevel] = star;
-          dbHelper.insert(tableName: 'userLevels', record: {"email": DatabaseHelper.currentLoggedInEmail, "levelNum": presentLevel, "star": star});
-          presentLevel++;
-        }else{
-          if(userLevels[0]['star'] < star){
-            levelStar[presentLevel] = star;
-            dbHelper.updateUserLevels(presentLevel, {'star': star});
-          }
+  void incrementLevel(int star, int selectedLevel) async {
+    if (selectedLevel <= presentLevel) {
+      var userLevels = await dbHelper.getLevelFromUserLevels(selectedLevel);
+      if (userLevels.isEmpty) {
+        levelStar[selectedLevel] = star;
+        dbHelper.insert(tableName: 'userLevels', record: {"email": DatabaseHelper.currentLoggedInEmail, "levelNum": selectedLevel, "star": star});
+        presentLevel = selectedLevel + 1;
+      } else {
+        if (userLevels[0]['star'] < star) {
+          levelStar[selectedLevel] = star;
+          await dbHelper.updateUserLevels(selectedLevel, {'star': star});
         }
       }
+    }
 
+    int? maxLevel = await dbHelper.getNumOfLevels();
     allDone = presentLevel == maxLevel ? true : false;
 
     notifyListeners();
   }
 
-  void updateLevelStatus() async{
+  void updateLevelStatus() async {
     lvlsStatus = await dbHelper.getUserLevels();
     notifyListeners();
   }
 
-  bool validateSelectedLevel(int levelNum){
+  bool validateSelectedLevel(int levelNum) {
     return levelNum <= presentLevel;
   }
 
-  void getLevelsFromDB(){
+  void getLevelsFromDB() async {
     levelListTiles.clear();
-    dbHelper.getNumOfLevels().then((value){
-      for(int i = 1; i <= value!; i++){
+    int? value = await dbHelper.getNumOfLevels();
+    if (value != null) {
+      for (int i = 1; i <= value; i++) {
         levelListTiles.add(LevelListTile(levelNo: i));
+        notifyListeners();
       }
-    });
-    notifyListeners();
+    }
   }
 }

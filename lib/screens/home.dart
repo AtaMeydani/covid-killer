@@ -120,10 +120,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           builder: (context, settingsStatus, child) {
                             return AnimatedButton(
                               onPressed: () async {
-                                lvlState.getLevelsFromDB();
                                 settingsStatus.musicStatus ? gameMusic.buttonClick() : "";
                                 settingsStatus.vibrateStatus ? HapticFeedback.vibrate() : "";
                                 Navigator.of(context).pushNamed("/level");
+                                lvlState.getLevelsFromDB();
                               },
                               enabled: true,
                               shadowDegree: ShadowDegree.dark,

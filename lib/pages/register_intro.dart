@@ -6,11 +6,14 @@ import 'package:covid/widget/buttonWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:validators/validators.dart';
 import '../components/earth_rotating_animation.dart';
 import '../components/home_back_ground.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+
+import '../models/levels_manager.dart';
 
 class RegisterIntro extends StatefulWidget {
   const RegisterIntro({Key? key}) : super(key: key);
@@ -26,20 +29,22 @@ class _RegisterIntroState extends State<RegisterIntro> {
 
   @override
   void initState() {
-    Timer(const Duration(milliseconds: 300),
-        (() => showEmailModalBottomSheet(context, size, textTheme)));
+    Timer(const Duration(milliseconds: 300), (() => showEmailModalBottomSheet(context, size, textTheme)));
     super.initState();
   }
 
   Size get size => MediaQuery.of(context).size;
+
   TextTheme get textTheme => Theme.of(context).textTheme;
 
   String? _imageFile;
   final ImagePicker _picker = ImagePicker();
+
   // var dbHelper = DatabaseHelper.instance ;
 
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
+
   // var imageController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -58,70 +63,69 @@ class _RegisterIntroState extends State<RegisterIntro> {
             showEmailModalBottomSheet(context, size, textTheme);
           },
           child: Center(
-                    child: Stack(
-                 alignment: Alignment.center,
-                 children: [
-                   const HomeBackGround(),
-                   Positioned(
-                     bottom: ResponsiveValue(
-                       context,
-                       defaultValue: -210.0,
-                       valueWhen: const [
-                         Condition.smallerThan(
-                           name: MOBILE,
-                           value: -210.0,
-                         ),
-                         Condition.smallerThan(
-                           name: TABLET,
-                           value: -260.0,
-                         ),
-                        Condition.largerThan(
-                          name: TABLET,
-                          value: -310.0,
-                        )
-                       ],
-                    ).value,
-                    height: ResponsiveValue(
-                      context,
-                      defaultValue: 400.0,
-                      valueWhen: const [
-                        Condition.smallerThan(
-                          name: MOBILE,
-                          value: 300.0,
-                        ),
-                        Condition.smallerThan(
-                          name: TABLET,
-                          value: 400.0,
-                        ),
-                        Condition.largerThan(
-                          name: TABLET,
-                          value: 500.0,
-                        )
-                      ],
-                    ).value,
-                    width: ResponsiveValue(
-                      context,
-                      defaultValue: 500.0,
-                      valueWhen: const [
-                        Condition.smallerThan(
-                          name: MOBILE,
-                          value: 300.0,
-                        ),
-                        Condition.smallerThan(
-                          name: TABLET,
-                          value: 400.0,
-                        ),
-                        Condition.largerThan(
-                          name: TABLET,
-                          value: 500.0,
-                        )
-                      ],
-                     ).value,
-                     child: const EarthAnimation(),
-                   ),
-                 ],
-               ),
-
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                const HomeBackGround(),
+                Positioned(
+                  bottom: ResponsiveValue(
+                    context,
+                    defaultValue: -210.0,
+                    valueWhen: const [
+                      Condition.smallerThan(
+                        name: MOBILE,
+                        value: -210.0,
+                      ),
+                      Condition.smallerThan(
+                        name: TABLET,
+                        value: -260.0,
+                      ),
+                      Condition.largerThan(
+                        name: TABLET,
+                        value: -310.0,
+                      )
+                    ],
+                  ).value,
+                  height: ResponsiveValue(
+                    context,
+                    defaultValue: 400.0,
+                    valueWhen: const [
+                      Condition.smallerThan(
+                        name: MOBILE,
+                        value: 300.0,
+                      ),
+                      Condition.smallerThan(
+                        name: TABLET,
+                        value: 400.0,
+                      ),
+                      Condition.largerThan(
+                        name: TABLET,
+                        value: 500.0,
+                      )
+                    ],
+                  ).value,
+                  width: ResponsiveValue(
+                    context,
+                    defaultValue: 500.0,
+                    valueWhen: const [
+                      Condition.smallerThan(
+                        name: MOBILE,
+                        value: 300.0,
+                      ),
+                      Condition.smallerThan(
+                        name: TABLET,
+                        value: 400.0,
+                      ),
+                      Condition.largerThan(
+                        name: TABLET,
+                        value: 500.0,
+                      )
+                    ],
+                  ).value,
+                  child: const EarthAnimation(),
+                ),
+              ],
+            ),
 
             // child: Column(
             //   mainAxisAlignment: MainAxisAlignment.center,
@@ -140,24 +144,19 @@ class _RegisterIntroState extends State<RegisterIntro> {
             //   ],
             // ),
           ),
-
-
-          
         ),
       ),
     );
   }
 
-  Future<dynamic> showEmailModalBottomSheet(
-      BuildContext context, Size size, TextTheme textTheme) {
+  Future<dynamic> showEmailModalBottomSheet(BuildContext context, Size size, TextTheme textTheme) {
     return showModalBottomSheet(
         context: context,
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
         builder: ((context) {
           return Padding(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
+            padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
             child: Container(
               height: size.height / 2,
               decoration: const BoxDecoration(
@@ -173,7 +172,7 @@ class _RegisterIntroState extends State<RegisterIntro> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 40),
                       child: Form(
-                         key: _signInFormKey,
+                        key: _signInFormKey,
                         //  autovalidateMode: AutovalidateMode.onUserInteraction,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
@@ -249,16 +248,14 @@ class _RegisterIntroState extends State<RegisterIntro> {
         }));
   }
 
-  Future<dynamic> activateCodeBottomSheet(
-      BuildContext context, Size size, TextTheme textTheme) {
+  Future<dynamic> activateCodeBottomSheet(BuildContext context, Size size, TextTheme textTheme) {
     return showModalBottomSheet(
         context: context,
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
         builder: ((context) {
           return Padding(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
+            padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
             child: Container(
               height: size.height / 1.4,
               decoration: const BoxDecoration(
@@ -387,19 +384,19 @@ class _RegisterIntroState extends State<RegisterIntro> {
                                 }
                               }),
                         ),
-                        InkWell(onTap: (() {
+                        InkWell(
+                          onTap: (() {
                             Navigator.pop(context);
                             showEmailModalBottomSheet(context, size, textTheme);
                           }),
                           child: Container(
-                            padding:  const EdgeInsets.symmetric(horizontal: 40),
-                            margin:  const EdgeInsets.only(top: 15, bottom: 20),
-                            child:  const buttonWidget(
+                            padding: const EdgeInsets.symmetric(horizontal: 40),
+                            margin: const EdgeInsets.only(top: 15, bottom: 20),
+                            child: const buttonWidget(
                               title: "Sign in",
                               hasBorder: true,
                             ),
                           ),
-                          
                         )
                       ],
                     ),
@@ -431,7 +428,8 @@ class _RegisterIntroState extends State<RegisterIntro> {
       };
       final id = await dbHelper.insert(tableName: 'users', record: row);
       Navigator.popAndPushNamed(context, "/home");
-      dbHelper.setCurrentUser(emailController.text, context);
+      dbHelper.setCurrentUser(emailController.text);
+      Provider.of<LevelsManager>(context, listen: false).levelSetUp();
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Account created successfully"),
       ));
@@ -439,18 +437,15 @@ class _RegisterIntroState extends State<RegisterIntro> {
   }
 
   void _select() async {
-    var user = await dbHelper.select(
-        loginEmailController.text, loginPasswordController.text);
+    var user = await dbHelper.select(loginEmailController.text, loginPasswordController.text);
     print(user);
     if (user == null) {
-      Alert(
-              context: context,
-              title: "Not found",
-              desc: "Please enter your email and password correctly")
-          .show();
+      Alert(context: context, title: "Not found", desc: "Please enter your email and password correctly").show();
     } else {
       Navigator.popAndPushNamed(context, "/home");
-      dbHelper.setCurrentUser(emailController.text, context);
+      await dbHelper.setCurrentUser(user['email']);
+      await dbHelper.updateLoggedInUser(1, user['email']);
+      Provider.of<LevelsManager>(context, listen: false).levelSetUp();
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Login completed successfully"),
       ));
@@ -487,8 +482,7 @@ class _RegisterIntroState extends State<RegisterIntro> {
                 size: 28,
               ),
               onTap: () {
-                showModalBottomSheet(
-                    context: context, builder: ((builder) => bottomSheet()));
+                showModalBottomSheet(context: context, builder: ((builder) => bottomSheet()));
               },
             ),
           )

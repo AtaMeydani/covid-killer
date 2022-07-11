@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if(user == null){
       routeRegister();
     }else{
-      dbHelper.setCurrentUser(user['email'], context);
+      await dbHelper.setCurrentUser(user['email']);
       routeHome();
     }
   }

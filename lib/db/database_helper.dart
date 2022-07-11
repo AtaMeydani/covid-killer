@@ -6,7 +6,7 @@ import '../models/levels_manager.dart';
 
 class DatabaseHelper {
   static const _databaseName = "covidkiller.db";
-  static const _databaseVersion = 2;
+  static const _databaseVersion = 1;
   static String? currentLoggedInEmail;
 
   // make this a singleton class
@@ -84,7 +84,7 @@ class DatabaseHelper {
 
     // await db.insert(
     //     'users',
-    //     {"email": "miratameydani@gmail.com", "password": "12345678", "firstName": "Ata", "lastName": "M", "loggedIn": 1, "image": null});
+    //     {"email": "miratameydani@gmail.com", "password": "123456", "firstName": "Ata", "lastName": "M", "loggedIn": 1, "image": null});
 
     await db.insert("maps", {"mapID": 1, "rows": 9, "columns": 9, "doctorX": 7, "doctorY": 7});
 
@@ -95,16 +95,15 @@ class DatabaseHelper {
     await db.insert("walls", {"mapID": 1, "posX": 2, "posY": 3});
     await db.insert("walls", {"mapID": 1, "posX": 2, "posY": 4});
 
-    await db.insert("maps", {"mapID": 2, "rows": 9, "columns": 9, "doctorX": 7, "doctorY": 7});
-
-    await db.insert("walls", {"mapID": 2, "posX": 2, "posY": 2});
-    await db.insert("walls", {"mapID": 2, "posX": 2, "posY": 3});
-    await db.insert("walls", {"mapID": 2, "posX": 2, "posY": 4});
-    await db.insert("walls", {"mapID": 2, "posX": 2, "posY": 5});
-    await db.insert("walls", {"mapID": 2, "posX": 3, "posY": 5});
-    await db.insert("walls", {"mapID": 2, "posX": 4, "posY": 5});
-
-    await db.insert("levels", {"levelNum": 3, "onLevel": 0, "redCovid": 4, "greenCovid": 3, "spray": 1, "mapID": 2, "secs": 120});
+    // await db.insert("maps", {"mapID": 2, "rows": 9, "columns": 9, "doctorX": 7, "doctorY": 7});
+    // await db.insert("walls", {"mapID": 2, "posX": 2, "posY": 2});
+    // await db.insert("walls", {"mapID": 2, "posX": 2, "posY": 3});
+    // await db.insert("walls", {"mapID": 2, "posX": 2, "posY": 4});
+    // await db.insert("walls", {"mapID": 2, "posX": 2, "posY": 5});
+    // await db.insert("walls", {"mapID": 2, "posX": 3, "posY": 5});
+    // await db.insert("walls", {"mapID": 2, "posX": 4, "posY": 5});
+    // await db.insert("levels", {"levelNum": 3, "onLevel": 0, "redCovid": 4, "greenCovid": 3, "spray": 1, "mapID": 2, "secs": 120});
+    //
   }
 
   Future _onDowngrade(Database db, int oldVersion, int newVersion) async{
@@ -186,9 +185,9 @@ class DatabaseHelper {
     return result.isEmpty ? false : true;
   }
 
-  Future updateLoggedInUser(int loggedIn) async {
+  Future updateLoggedInUser(int loggedIn, String? email) async {
     Database db = await instance.database;
-    await db.update('users', {'loggedIn': loggedIn}, where: 'email=?', whereArgs: [DatabaseHelper.currentLoggedInEmail]);
+    await db.update('users', {'loggedIn': loggedIn}, where: 'email=?', whereArgs: [email]);
     if(loggedIn == 0){
       DatabaseHelper.currentLoggedInEmail = null;
     }
@@ -196,9 +195,8 @@ class DatabaseHelper {
 
 
   // MY METHODS
-  setCurrentUser(String? email, context) {
+  setCurrentUser(String? email){
     DatabaseHelper.currentLoggedInEmail = email;
-    Provider.of<LevelsManager>(context, listen: false).levelSetUp();
   }
 
   Future<int?> getNumOfLevels() async {
@@ -225,7 +223,7 @@ class DatabaseHelper {
 
   Future<List<Map>> getLevelFromUserLevels(levelNum) async {
     Database db = await instance.database;
-    List<Map> result = await db.rawQuery('SELECT * FROM userLevels WHERE email=?AND levelNUm=?', [currentLoggedInEmail, levelNum]);
+    List<Map> result = await db.rawQuery('SELECT * FROM userLevels WHERE email=? AND levelNum=?', [currentLoggedInEmail, levelNum]);
     return result;
   }
 

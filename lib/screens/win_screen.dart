@@ -875,8 +875,7 @@ class _WinScreenState extends State<WinScreen> with SingleTickerProviderStateMix
     final directory = await getApplicationDocumentsDirectory();
     final imagepath = File('${directory.path}/$fileName.png');
     imagepath.writeAsBytes(bytes);
-    var text = "🎉 🎉 Congratulation for completing level $currentStage in Covi Kill 🎉 🎉"
-        " #flutter #flutterpuzzlehack #2dgames #covikill";
+    var text = "🎉 🎉 Congratulation for completing level $currentStage in Covi Kill 🎉 🎉";
     await Share.shareFiles([imagepath.path], text: text);
   }
 }

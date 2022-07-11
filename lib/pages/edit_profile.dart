@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../components/levelScreenBackGround.dart';
+import '../components/home_back_ground.dart';
 import '../db/database_helper.dart';
 import '../widget/TextFieldwidget.dart';
 import '../widget/buttonWidget.dart';
@@ -64,7 +64,7 @@ class _EditProfileState extends State<EditProfile> {
             ),
                 child: Stack(
                   children: [
-                    const LevelBackGround(),
+                    const HomeBackGround(),
                     Container(
                       width: double.infinity,
                       height: double.infinity,

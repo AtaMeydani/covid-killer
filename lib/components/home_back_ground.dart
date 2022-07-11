@@ -1,4 +1,3 @@
-import 'package:covid/components/home_back_ground.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart' as rive;
 import 'package:responsive_framework/responsive_framework.dart';
